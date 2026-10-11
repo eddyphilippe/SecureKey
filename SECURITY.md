@@ -1,6 +1,6 @@
 # Sécurité
 
-SecureKey chiffre des fichiers et leurs métadonnées. Ce document décrit ce que cela protège, ce que cela ne protège pas, et comment les clés sont manipulées.
+SecureZip chiffre des fichiers et leurs métadonnées. Ce document décrit ce que cela protège, ce que cela ne protège pas, et comment les clés sont manipulées.
 
 ## Modèle de menace
 
@@ -19,7 +19,7 @@ SecureKey chiffre des fichiers et leurs métadonnées. Ce document décrit ce qu
 - Une sauvegarde ou un export que l’utilisateur place lui-même à un endroit non chiffré.
 - La disponibilité de la clé : le chiffrement ne répare pas une clé physiquement détruite. Il n’existe pas, dans cette version, de clé de récupération.
 
-SecureKey ne prétend pas offrir une sécurité absolue.
+SecureZip ne prétend pas offrir une sécurité absolue.
 
 Le chiffrement protège les données lorsque le coffre est verrouillé. Il ne protège pas contre un ordinateur compromis, un keylogger ou un malware lorsque vous saisissez votre mot de passe.
 
@@ -89,11 +89,11 @@ Un objet déplacé sous un autre nom, ou copié dans un autre coffre, échoue à
 
 Chaque fichier est chiffré à part, par blocs de 1 Mio, sans être chargé entièrement en mémoire. L’annulation ou une coupure pendant l’écriture laisse un fichier temporaire (`.….tmp-…`) qui n’est pas un objet valide. L’index n’est mis à jour qu’après la synchronisation et le renommage du fichier chiffré.
 
-L’index précédent est conservé dans `index.enc.bak`. SecureKey ne restaure pas automatiquement un coffre endommagé : **Vérifier le coffre** produit un rapport.
+L’index précédent est conservé dans `index.enc.bak`. SecureZip ne restaure pas automatiquement un coffre endommagé : **Vérifier le coffre** produit un rapport.
 
 Le mode lecture seule refuse toute écriture du coffre, y compris le changement de mot de passe et le verrouillage automatique s’il devait réécrire l’index.
 
-Si la clé qui contient l’application ou le coffre est retirée, SecureKey se ferme. Il ne tente pas de relire ce volume : cet accès peut bloquer l’ordinateur. Les clés en mémoire sont effacées si le verrou n’est pas déjà pris par une copie en cours.
+Si la clé qui contient l’application ou le coffre est retirée, SecureZip se ferme. Il ne tente pas de relire ce volume : cet accès peut bloquer l’ordinateur. Les clés en mémoire sont effacées si le verrou n’est pas déjà pris par une copie en cours.
 
 ## Journaux
 

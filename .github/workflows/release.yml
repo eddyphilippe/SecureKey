@@ -57,23 +57,23 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist-upload
-          if [ -d src-tauri/target/release/bundle/macos/SecureKey.app ]; then
-            ditto -c -k --keepParent src-tauri/target/release/bundle/macos/SecureKey.app dist-upload/SecureKey-mac.zip
+          if [ -d src-tauri/target/release/bundle/macos/SecureZip.app ]; then
+            ditto -c -k --keepParent src-tauri/target/release/bundle/macos/SecureZip.app dist-upload/SecureZip-mac.zip
           fi
-          if [ -d src-tauri/target/x86_64-apple-darwin/release/bundle/macos/SecureKey.app ]; then
-            ditto -c -k --keepParent src-tauri/target/x86_64-apple-darwin/release/bundle/macos/SecureKey.app dist-upload/SecureKey-intel.zip
+          if [ -d src-tauri/target/x86_64-apple-darwin/release/bundle/macos/SecureZip.app ]; then
+            ditto -c -k --keepParent src-tauri/target/x86_64-apple-darwin/release/bundle/macos/SecureZip.app dist-upload/SecureZip-intel.zip
           fi
-          exe=$(find src-tauri/target/release -maxdepth 1 \( -name 'SecureKey.exe' -o -name 'securekey.exe' \) | head -n 1)
+          exe=$(find src-tauri/target/release -maxdepth 1 \( -name 'SecureZip.exe' -o -name 'securekey.exe' \) | head -n 1)
           if [ -n "$exe" ]; then
-            cp "$exe" dist-upload/SecureKey.exe
+            cp "$exe" dist-upload/SecureZip.exe
           fi
           appimage=$(find src-tauri/target/release/bundle -name '*.AppImage' 2>/dev/null | head -n 1 || true)
           if [ -n "$appimage" ]; then
-            cp "$appimage" dist-upload/SecureKey
-            chmod +x dist-upload/SecureKey
-          elif [ -f src-tauri/target/release/SecureKey ]; then
-            cp src-tauri/target/release/SecureKey dist-upload/SecureKey
-            chmod +x dist-upload/SecureKey
+            cp "$appimage" dist-upload/SecureZip
+            chmod +x dist-upload/SecureZip
+          elif [ -f src-tauri/target/release/SecureZip ]; then
+            cp src-tauri/target/release/SecureZip dist-upload/SecureZip
+            chmod +x dist-upload/SecureZip
           fi
           find dist-upload -type f -o -type d | sort
       - uses: actions/upload-artifact@v4
@@ -93,30 +93,30 @@ jobs:
           path: parts
       - name: Réunir le dossier de la clé
         run: |
-          mkdir -p SECUREKEY/Mac SECUREKEY/Windows SECUREKEY/Linux SECUREKEY/Vault/objects
-          unzip parts/securekey-mac/SecureKey-mac.zip -d SECUREKEY/Mac
-          unzip parts/securekey-mac-intel/SecureKey-intel.zip -d /tmp/securekey-intel
-          mv "/tmp/securekey-intel/SecureKey.app" "SECUREKEY/Mac/SecureKey Intel.app"
-          cp parts/securekey-windows/SecureKey.exe SECUREKEY/Windows/SecureKey.exe
-          cp parts/securekey-linux/SecureKey SECUREKEY/Linux/SecureKey
-          chmod +x SECUREKEY/Linux/SecureKey
-          cp packaging/README.txt SECUREKEY/README.txt
-          zip -r SECUREKEY.zip SECUREKEY
+          mkdir -p SECUREZIP/Mac SECUREZIP/Windows SECUREZIP/Linux SECUREZIP/Vault/objects
+          unzip parts/securekey-mac/SecureZip-mac.zip -d SECUREZIP/Mac
+          unzip parts/securekey-mac-intel/SecureZip-intel.zip -d /tmp/securekey-intel
+          mv "/tmp/securekey-intel/SecureZip.app" "SECUREZIP/Mac/SecureZip Intel.app"
+          cp parts/securekey-windows/SecureZip.exe SECUREZIP/Windows/SecureZip.exe
+          cp parts/securekey-linux/SecureZip SECUREZIP/Linux/SecureZip
+          chmod +x SECUREZIP/Linux/SecureZip
+          cp packaging/README.txt SECUREZIP/README.txt
+          zip -r SECUREZIP.zip SECUREZIP
       - uses: actions/upload-artifact@v4
         with:
-          name: SECUREKEY
-          path: SECUREKEY.zip
+          name: SECUREZIP
+          path: SECUREZIP.zip
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: v0.1.0
-          name: SecureKey 0.1.0
+          name: SecureZip 0.1.0
           body: |
             Dossier à copier sur une clé USB ou dans un dossier de l'ordinateur.
 
-            SECUREKEY/Mac/SecureKey.app          Mac Apple Silicon
-            SECUREKEY/Mac/SecureKey Intel.app    Mac Intel
-            SECUREKEY/Windows/SecureKey.exe
-            SECUREKEY/Linux/SecureKey
-            SECUREKEY/README.txt
-          files: SECUREKEY.zip
+            SECUREZIP/Mac/SecureZip.app          Mac Apple Silicon
+            SECUREZIP/Mac/SecureZip Intel.app    Mac Intel
+            SECUREZIP/Windows/SecureZip.exe
+            SECUREZIP/Linux/SecureZip
+            SECUREZIP/README.txt
+          files: SECUREZIP.zip
           make_latest: true

@@ -1,6 +1,6 @@
 # Format Vault V1
 
-Ce document suffit à écrire un autre logiciel capable de lire et d’écrire un coffre SecureKey version 1. Les entiers sont little-endian. Le texte est de l’UTF-8 sans BOM. Les champs binaires des fichiers JSON sont en hexadécimal minuscule. Aucun chemin, permission, ACL, attribut étendu ou flux alternatif n’est utilisé : le coffre est un ensemble de fichiers ordinaires, adapté à exFAT.
+Ce document suffit à écrire un autre logiciel capable de lire et d’écrire un coffre SecureZip version 1. Les entiers sont little-endian. Le texte est de l’UTF-8 sans BOM. Les champs binaires des fichiers JSON sont en hexadécimal minuscule. Aucun chemin, permission, ACL, attribut étendu ou flux alternatif n’est utilisé : le coffre est un ensemble de fichiers ordinaires, adapté à exFAT.
 
 `format_version = 1`. Une version inconnue doit être refusée sans modifier le coffre. Une future version 2 devra savoir lire la version 1. Ajouter des champs à un JSON de version 1 n’est pas une stratégie de migration : les structures rejettent les champs inconnus, pour qu’une ancienne application ne les efface pas en réécrivant le fichier.
 

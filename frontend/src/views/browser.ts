@@ -43,7 +43,7 @@ function sidebar(model: AppModel): HTMLElement {
   const aside = document.createElement("aside");
   const mark = document.createElement("p");
   mark.className = "mark light";
-  mark.textContent = "SecureKey";
+  mark.textContent = "SecureZip";
   const name = document.createElement("p");
   name.className = "vault-name";
   name.textContent = model.info?.vaultName ?? "Coffre";
@@ -415,7 +415,7 @@ function vaultMenu(): void {
   const help = menuButton("Aide", async () => {
     close();
     await confirmBox(
-      "Ce que SecureKey protège",
+      "Ce que SecureZip protège",
       "Le chiffrement protège les données lorsque le coffre est verrouillé. Il ne protège pas contre un ordinateur compromis, un keylogger ou un malware lorsque vous saisissez votre mot de passe.",
     );
   });

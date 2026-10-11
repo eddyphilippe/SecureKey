@@ -1,12 +1,12 @@
-SecureKey
+SecureZip
 =========
 
 Ce dossier peut contenir un coffre de fichiers et l'application pour l'ouvrir.
 
-  Mac/SecureKey.app           Mac Apple Silicon
-  Mac/SecureKey Intel.app     Mac Intel
-  Windows/SecureKey.exe
-  Linux/SecureKey
+  Mac/SecureZip.app           Mac Apple Silicon
+  Mac/SecureZip Intel.app     Mac Intel
+  Windows/SecureZip.exe
+  Linux/SecureZip
   Vault/              données chiffrées
 
 Lancez l'application de votre système, puis saisissez votre mot de passe.

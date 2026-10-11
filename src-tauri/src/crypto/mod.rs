@@ -1,4 +1,4 @@
-//! Primitives cryptographiques de SecureKey.
+//! Primitives cryptographiques de SecureZip.
 //!
 //! Ce module ne dépend d'aucune interface graphique. Il n'invente aucun
 //! algorithme : Argon2id, XChaCha20-Poly1305 et la construction STREAM

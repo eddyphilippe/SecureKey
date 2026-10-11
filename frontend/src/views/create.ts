@@ -19,7 +19,7 @@ export function renderCreate(root: HTMLElement): void {
 
   const mark = document.createElement("p");
   mark.className = "mark";
-  mark.textContent = "SecureKey";
+  mark.textContent = "SecureZip";
   const title = document.createElement("h1");
   title.textContent = "Nouveau coffre";
   const intro = document.createElement("p");
@@ -86,7 +86,7 @@ export function renderCreate(root: HTMLElement): void {
   place.addEventListener("click", async () => {
     if (!inTauri()) {
       error.hidden = false;
-      error.textContent = "Le choix de dossier fonctionne dans l'application SecureKey.";
+      error.textContent = "Le choix de dossier fonctionne dans l'application SecureZip.";
       return;
     }
     const picked = await pickDirectory();

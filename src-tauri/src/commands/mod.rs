@@ -151,5 +151,5 @@ pub fn run() {
             files::discard_temp,
         ])
         .run(tauri::generate_context!())
-        .expect("SecureKey n'a pas pu démarrer");
+        .expect("SecureZip n'a pas pu démarrer");
 }

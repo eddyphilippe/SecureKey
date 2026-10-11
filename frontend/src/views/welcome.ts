@@ -9,7 +9,7 @@ export function renderWelcome(root: HTMLElement, discovered: string | null): voi
   card.className = "card hero";
   const mark = document.createElement("p");
   mark.className = "mark";
-  mark.textContent = "SecureKey";
+  mark.textContent = "SecureZip";
   const title = document.createElement("h1");
   title.textContent = "Coffre-fort de fichiers";
   const text = document.createElement("p");
@@ -41,7 +41,7 @@ export function renderWelcome(root: HTMLElement, discovered: string | null): voi
   if (!inTauri()) {
     const note = document.createElement("p");
     note.className = "hint";
-    note.textContent = "Aperçu de l'interface. Le coffre se déverrouille dans l'application SecureKey.";
+    note.textContent = "Aperçu de l'interface. Le coffre se déverrouille dans l'application SecureZip.";
     card.append(note);
   }
   screen.append(card);
@@ -50,7 +50,7 @@ export function renderWelcome(root: HTMLElement, discovered: string | null): voi
   create.addEventListener("click", () => update({ screen: "create", error: null }));
   open.addEventListener("click", async () => {
     if (!inTauri()) {
-      update({ screen: "unlock", discoveredPath: null, error: "Ouvrez SecureKey pour choisir un coffre." });
+      update({ screen: "unlock", discoveredPath: null, error: "Ouvrez SecureZip pour choisir un coffre." });
       return;
     }
     const picked = await pickDirectory();
