@@ -58,9 +58,11 @@ jobs:
         run: |
           mkdir -p dist-upload
           if [ -d src-tauri/target/release/bundle/macos/NomadVault.app ]; then
+            codesign --force --deep --sign - src-tauri/target/release/bundle/macos/NomadVault.app
             ditto -c -k --keepParent src-tauri/target/release/bundle/macos/NomadVault.app dist-upload/NomadVault-mac.zip
           fi
           if [ -d src-tauri/target/x86_64-apple-darwin/release/bundle/macos/NomadVault.app ]; then
+            codesign --force --deep --sign - src-tauri/target/x86_64-apple-darwin/release/bundle/macos/NomadVault.app
             ditto -c -k --keepParent src-tauri/target/x86_64-apple-darwin/release/bundle/macos/NomadVault.app dist-upload/NomadVault-intel.zip
           fi
           exe=$(find src-tauri/target/release -maxdepth 1 \( -name 'NomadVault.exe' -o -name 'securekey.exe' \) | head -n 1)
