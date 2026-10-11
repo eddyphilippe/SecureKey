@@ -21,7 +21,8 @@ Le binaire s’appelle `SecureKey`. Les artefacts Tauri se trouvent sous `src-ta
 
 ```text
 SECUREKEY/
-  Mac/SecureKey.app
+  Mac/SecureKey.app           Mac Apple Silicon
+  Mac/SecureKey Intel.app     Mac Intel
   Windows/SecureKey.exe
   Linux/SecureKey
   Vault/

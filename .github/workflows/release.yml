@@ -16,6 +16,8 @@ jobs:
         include:
           - os: macos-latest
             name: mac
+          - os: macos-latest
+            name: mac-intel
           - os: ubuntu-24.04
             name: linux
           - os: windows-latest
@@ -43,6 +45,9 @@ jobs:
         run: |
           if [ "${{ matrix.name }}" = "mac" ]; then
             npm run tauri build -- --bundles app
+          elif [ "${{ matrix.name }}" = "mac-intel" ]; then
+            rustup target add x86_64-apple-darwin
+            npm run tauri build -- --target x86_64-apple-darwin --bundles app
           elif [ "${{ matrix.name }}" = "linux" ]; then
             npm run tauri build -- --bundles appimage
           else
@@ -54,6 +59,9 @@ jobs:
           mkdir -p dist-upload
           if [ -d src-tauri/target/release/bundle/macos/SecureKey.app ]; then
             ditto -c -k --keepParent src-tauri/target/release/bundle/macos/SecureKey.app dist-upload/SecureKey-mac.zip
+          fi
+          if [ -d src-tauri/target/x86_64-apple-darwin/release/bundle/macos/SecureKey.app ]; then
+            ditto -c -k --keepParent src-tauri/target/x86_64-apple-darwin/release/bundle/macos/SecureKey.app dist-upload/SecureKey-intel.zip
           fi
           exe=$(find src-tauri/target/release -maxdepth 1 \( -name 'SecureKey.exe' -o -name 'securekey.exe' \) | head -n 1)
           if [ -n "$exe" ]; then
@@ -87,6 +95,8 @@ jobs:
         run: |
           mkdir -p SECUREKEY/Mac SECUREKEY/Windows SECUREKEY/Linux SECUREKEY/Vault/objects
           unzip parts/securekey-mac/SecureKey-mac.zip -d SECUREKEY/Mac
+          unzip parts/securekey-mac-intel/SecureKey-intel.zip -d /tmp/securekey-intel
+          mv "/tmp/securekey-intel/SecureKey.app" "SECUREKEY/Mac/SecureKey Intel.app"
           cp parts/securekey-windows/SecureKey.exe SECUREKEY/Windows/SecureKey.exe
           cp parts/securekey-linux/SecureKey SECUREKEY/Linux/SecureKey
           chmod +x SECUREKEY/Linux/SecureKey
@@ -103,7 +113,8 @@ jobs:
           body: |
             Dossier à copier sur une clé USB ou dans un dossier de l'ordinateur.
 
-            SECUREKEY/Mac/SecureKey.app
+            SECUREKEY/Mac/SecureKey.app          Mac Apple Silicon
+            SECUREKEY/Mac/SecureKey Intel.app    Mac Intel
             SECUREKEY/Windows/SecureKey.exe
             SECUREKEY/Linux/SecureKey
             SECUREKEY/README.txt

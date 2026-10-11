@@ -3,7 +3,8 @@ SecureKey
 
 Ce dossier peut contenir un coffre de fichiers et l'application pour l'ouvrir.
 
-  Mac/SecureKey.app
+  Mac/SecureKey.app           Mac Apple Silicon
+  Mac/SecureKey Intel.app     Mac Intel
   Windows/SecureKey.exe
   Linux/SecureKey
   Vault/              données chiffrées

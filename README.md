@@ -22,7 +22,8 @@ Le mode **lecture seule** n’écrit rien dans le coffre. Seuls l’export et l�
 
 ```text
 SECUREKEY/
-  Mac/SecureKey.app
+  Mac/SecureKey.app           Mac Apple Silicon
+  Mac/SecureKey Intel.app     Mac Intel
   Windows/SecureKey.exe
   Linux/SecureKey
   Vault/
