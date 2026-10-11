@@ -151,5 +151,5 @@ pub fn run() {
             files::discard_temp,
         ])
         .run(tauri::generate_context!())
-        .expect("SecureZip n'a pas pu démarrer");
+        .expect("NomadVault n'a pas pu démarrer");
 }

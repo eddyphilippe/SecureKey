@@ -1,12 +1,12 @@
-SecureZip
+NomadVault
 =========
 
 Ce dossier peut contenir un coffre de fichiers et l'application pour l'ouvrir.
 
-  Mac/SecureZip.app           Mac Apple Silicon
-  Mac/SecureZip Intel.app     Mac Intel
-  Windows/SecureZip.exe
-  Linux/SecureZip
+  Mac/NomadVault.app           Mac Apple Silicon
+  Mac/NomadVault Intel.app     Mac Intel
+  Windows/NomadVault.exe
+  Linux/NomadVault
   Vault/              données chiffrées
 
 Lancez l'application de votre système, puis saisissez votre mot de passe.

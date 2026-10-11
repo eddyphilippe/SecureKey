@@ -1,6 +1,6 @@
 use std::io;
 
-/// Erreur du moteur SecureZip.
+/// Erreur du moteur NomadVault.
 ///
 /// Les messages sont destinés à l'interface. Ils ne contiennent ni mot de
 /// passe, ni clé, ni contenu de fichier.
@@ -39,7 +39,7 @@ pub enum Error {
     #[error("Un coffre existe déjà à cet emplacement.")]
     AlreadyExists,
 
-    #[error("Ce dossier n'est pas un coffre SecureZip.")]
+    #[error("Ce dossier n'est pas un coffre NomadVault.")]
     NotAVault,
 
     #[error("La clé de récupération n'est pas disponible dans cette version.")]

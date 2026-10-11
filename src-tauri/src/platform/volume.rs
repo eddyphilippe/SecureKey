@@ -205,7 +205,7 @@ mod tests {
             PathBuf::from("/Volumes/Sauvegarde"),
             PathBuf::from("/Volumes/Autre"),
         ];
-        let path = Path::new("/Volumes/Sauvegarde/SecureZip.app/Contents/MacOS/SecureZip");
+        let path = Path::new("/Volumes/Sauvegarde/NomadVault.app/Contents/MacOS/NomadVault");
         assert_eq!(
             owning_mount(path, &mounts).unwrap(),
             PathBuf::from("/Volumes/Sauvegarde")

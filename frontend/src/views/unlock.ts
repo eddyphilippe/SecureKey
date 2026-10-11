@@ -13,7 +13,7 @@ export function renderUnlock(root: HTMLElement, model: AppModel): void {
   card.className = "card";
   const mark = document.createElement("p");
   mark.className = "mark";
-  mark.textContent = "SECUREZIP";
+  mark.textContent = "NomadVault";
   const title = document.createElement("h1");
   title.textContent = "Coffre verrouillé";
   const path = document.createElement("p");
@@ -87,7 +87,7 @@ export function renderReady(root: HTMLElement, message: string): void {
   card.className = "card";
   const mark = document.createElement("p");
   mark.className = "mark";
-  mark.textContent = "SecureZip";
+  mark.textContent = "NomadVault";
   const title = document.createElement("h1");
   title.textContent = message;
   const text = document.createElement("p");

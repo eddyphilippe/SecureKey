@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "SecureZip",
+  "productName": "NomadVault",
   "version": "0.1.0",
-  "identifier": "app.securezip.desktop",
+  "identifier": "app.nomadvault.desktop",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "SecureZip",
+        "title": "NomadVault",
         "width": 1120,
         "height": 760,
         "minWidth": 880,
@@ -39,5 +39,5 @@
       "minimumSystemVersion": "11.0"
     }
   },
-  "mainBinaryName": "SecureZip"
+  "mainBinaryName": "NomadVault"
 }

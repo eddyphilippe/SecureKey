@@ -1,5 +1,5 @@
 ---
-description: Pile cryptographique autorisée pour SecureZip
+description: Pile cryptographique autorisée pour NomadVault
 alwaysApply: true
 ---
 
@@ -16,4 +16,4 @@ Refuser AES, SHA appelé par le coffre, Blake2 appelé directement, RSA, courbes
 
 Versions exactes dans `src-tauri/Cargo.toml` (préfixe `=`). Ne pas lancer `cargo update` sur ces crates sans lire l’avis RustSec. Vérifier avec `cargo audit --file src-tauri/Cargo.lock`.
 
-Une bibliothèque cryptographique n’est ajoutée que si un rapport d’examen public est cité dans `SECURITY.md`. Ne pas écrire que SecureZip lui-même n’a pas été audité.
+Une bibliothèque cryptographique n’est ajoutée que si un rapport d’examen public est cité dans `SECURITY.md`. Ne pas écrire que NomadVault lui-même n’a pas été audité.

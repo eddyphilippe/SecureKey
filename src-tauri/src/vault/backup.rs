@@ -24,10 +24,10 @@ pub fn backup_vault(source: &VaultPaths, destination_parent: &Path, progress: &m
         .duration_since(UNIX_EPOCH)
         .map(|duration| duration.as_secs())
         .unwrap_or(0);
-    let mut dest_root = destination_parent.join(format!("SecureZip-sauvegarde-{stamp}"));
+    let mut dest_root = destination_parent.join(format!("NomadVault-sauvegarde-{stamp}"));
     if dest_root.exists() {
         let suffix = hex::encode(crate::crypto::random_bytes::<4>()?);
-        dest_root = destination_parent.join(format!("SecureZip-sauvegarde-{stamp}-{suffix}"));
+        dest_root = destination_parent.join(format!("NomadVault-sauvegarde-{stamp}-{suffix}"));
     }
     fs::create_dir(&dest_root)?;
     let dest = VaultPaths::new(&dest_root);

@@ -1,4 +1,4 @@
-//! Primitives cryptographiques de SecureZip.
+//! Primitives cryptographiques de NomadVault.
 //!
 //! Ce module ne dépend d'aucune interface graphique. Il n'invente aucun
 //! algorithme : Argon2id, XChaCha20-Poly1305 et la construction STREAM
