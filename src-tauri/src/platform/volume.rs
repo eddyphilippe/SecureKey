@@ -221,8 +221,22 @@ mod tests {
 
     #[test]
     fn the_internal_disk_is_not_treated_as_a_key() {
-        assert!(!is_removable_mount(Path::new("/")));
-        assert!(!is_removable_mount(Path::new("/System/Volumes/Data")));
-        assert!(is_removable_mount(Path::new("/Volumes/Sauvegarde")));
+        #[cfg(target_os = "macos")]
+        {
+            assert!(!is_removable_mount(Path::new("/")));
+            assert!(!is_removable_mount(Path::new("/System/Volumes/Data")));
+            assert!(is_removable_mount(Path::new("/Volumes/Sauvegarde")));
+        }
+        #[cfg(all(unix, not(target_os = "macos")))]
+        {
+            assert!(!is_removable_mount(Path::new("/")));
+            assert!(!is_removable_mount(Path::new("/home")));
+            assert!(is_removable_mount(Path::new("/media/eddy/Sauvegarde")));
+        }
+        #[cfg(windows)]
+        {
+            assert!(!is_removable_mount(Path::new(r"C:\")));
+            assert!(is_removable_mount(Path::new(r"E:\Sauvegarde")));
+        }
     }
 }
