@@ -1,0 +1,111 @@
+name: portable
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            name: mac
+          - os: ubuntu-24.04
+            name: linux
+          - os: windows-latest
+            name: windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - name: Dépendances Linux
+        if: matrix.name == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev patchelf libfuse2
+      - name: Installer le frontend
+        run: npm ci
+      - name: Compiler
+        shell: bash
+        run: |
+          if [ "${{ matrix.name }}" = "mac" ]; then
+            npm run tauri build -- --bundles app
+          elif [ "${{ matrix.name }}" = "linux" ]; then
+            npm run tauri build -- --bundles appimage
+          else
+            npm run tauri build -- --bundles none
+          fi
+      - name: Préparer le fichier de cette version
+        shell: bash
+        run: |
+          mkdir -p dist-upload
+          if [ -d src-tauri/target/release/bundle/macos/SecureKey.app ]; then
+            ditto -c -k --keepParent src-tauri/target/release/bundle/macos/SecureKey.app dist-upload/SecureKey-mac.zip
+          fi
+          exe=$(find src-tauri/target/release -maxdepth 1 \( -name 'SecureKey.exe' -o -name 'securekey.exe' \) | head -n 1)
+          if [ -n "$exe" ]; then
+            cp "$exe" dist-upload/SecureKey.exe
+          fi
+          appimage=$(find src-tauri/target/release/bundle -name '*.AppImage' 2>/dev/null | head -n 1 || true)
+          if [ -n "$appimage" ]; then
+            cp "$appimage" dist-upload/SecureKey
+            chmod +x dist-upload/SecureKey
+          elif [ -f src-tauri/target/release/SecureKey ]; then
+            cp src-tauri/target/release/SecureKey dist-upload/SecureKey
+            chmod +x dist-upload/SecureKey
+          fi
+          find dist-upload -type f -o -type d | sort
+      - uses: actions/upload-artifact@v4
+        with:
+          name: securekey-${{ matrix.name }}
+          path: dist-upload/
+          if-no-files-found: error
+
+  package:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: securekey-*
+          path: parts
+      - name: Réunir le dossier de la clé
+        run: |
+          mkdir -p SECUREKEY/Mac SECUREKEY/Windows SECUREKEY/Linux SECUREKEY/Vault/objects
+          unzip parts/securekey-mac/SecureKey-mac.zip -d SECUREKEY/Mac
+          cp parts/securekey-windows/SecureKey.exe SECUREKEY/Windows/SecureKey.exe
+          cp parts/securekey-linux/SecureKey SECUREKEY/Linux/SecureKey
+          chmod +x SECUREKEY/Linux/SecureKey
+          cp packaging/README.txt SECUREKEY/README.txt
+          zip -r SECUREKEY.zip SECUREKEY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SECUREKEY
+          path: SECUREKEY.zip
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.1.0
+          name: SecureKey 0.1.0
+          body: |
+            Dossier à copier sur une clé USB ou dans un dossier de l'ordinateur.
+
+            SECUREKEY/Mac/SecureKey.app
+            SECUREKEY/Windows/SecureKey.exe
+            SECUREKEY/Linux/SecureKey
+            SECUREKEY/README.txt
+          files: SECUREKEY.zip
+          make_latest: true

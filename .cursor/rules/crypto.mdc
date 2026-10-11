@@ -1,0 +1,19 @@
+---
+description: Pile cryptographique autorisée pour SecureKey
+alwaysApply: true
+---
+
+# Cryptographie
+
+Pile autorisée, et rien d’autre sans justification écrite dans `SECURITY.md` :
+
+- `argon2` : Argon2id uniquement
+- `chacha20poly1305` : XChaCha20-Poly1305 uniquement
+- `aead` et `aead-stream` : le même XChaCha20-Poly1305 en flux, pas un autre algorithme
+- `zeroize`, `getrandom`, `subtle`
+
+Refuser AES, SHA appelé par le coffre, Blake2 appelé directement, RSA, courbes elliptiques, OpenSSL, ring, et toute primitive écrite ici. Blake2 interne à Argon2id est accepté.
+
+Versions exactes dans `src-tauri/Cargo.toml` (préfixe `=`). Ne pas lancer `cargo update` sur ces crates sans lire l’avis RustSec. Vérifier avec `cargo audit --file src-tauri/Cargo.lock`.
+
+Une bibliothèque cryptographique n’est ajoutée que si un rapport d’examen public est cité dans `SECURITY.md`. Ne pas écrire que SecureKey lui-même n’a pas été audité.
