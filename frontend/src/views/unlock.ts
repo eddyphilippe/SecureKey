@@ -1,4 +1,5 @@
-import { api } from "../api";
+import { api, pickDirectory } from "../api";
+import { chooseVaultFolder } from "../choose-vault";
 import { update, type AppModel } from "../stores/session";
 import { refresh } from "./browser";
 
@@ -58,9 +59,8 @@ export function renderUnlock(root: HTMLElement, model: AppModel): void {
   root.append(screen);
 
   other.addEventListener("click", async () => {
-    const { pickDirectory } = await import("../api");
     const picked = await pickDirectory();
-    if (picked) update({ discoveredPath: picked, error: null, screen: "unlock" });
+    if (picked) await chooseVaultFolder(picked);
   });
   card.addEventListener("submit", async (event) => {
     event.preventDefault();

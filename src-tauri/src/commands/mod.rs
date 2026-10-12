@@ -123,6 +123,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             session::discover,
+            session::classify_directory,
             session::create_vault,
             session::open_vault,
             session::lock,

@@ -27,6 +27,7 @@ export function onProgress(handler: (done: number, total: number | null) => void
 
 export const api = {
   discover: () => invoke<string | null>("discover"),
+  classify: (directory: string) => invoke<"vault" | "blank" | "occupied">("classify_directory", { directory }),
   createVault: (directory: string, name: string, password: string, confirm: string) =>
     invoke<SessionInfo>("create_vault", { directory, name, password, confirm }),
   openVault: (directory: string, password: string, readOnly: boolean) =>

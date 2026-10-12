@@ -5,7 +5,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use securekey::crypto::{
     self, open_from_file, seal_to_writer, MasterKey, NopProgress, Progress, HEADER_LEN, TAG_LEN,
 };
-use securekey::vault::{create_vault, open_vault, CreateOptions};
+use securekey::vault::{classify_directory, create_vault, open_vault, CreateOptions, DirectoryKind};
 use securekey::Error;
 
 struct TempDir(PathBuf);
@@ -549,6 +549,30 @@ fn temporary_open_can_be_reimported_and_wiped() {
         .export_entries(&[imported.id], &export_dir, &mut NopProgress)
         .unwrap();
     assert_eq!(read_all(&export_dir.join("brouillon.txt")), b"version 2, plus longue");
+}
+
+#[test]
+fn an_empty_objects_folder_becomes_a_vault() {
+    let dir = TempDir::new();
+    let vault = dir.path().join("Vault");
+    fs::create_dir_all(vault.join("objects")).unwrap();
+    fs::write(vault.join("._objects"), b"appledouble").unwrap();
+    assert_eq!(classify_directory(&vault), DirectoryKind::Blank);
+    create_vault(&vault, "Nom", password(), password(), CreateOptions::for_tests()).unwrap();
+    assert!(vault.join("vault.meta").is_file());
+    assert_eq!(classify_directory(&vault), DirectoryKind::Vault);
+}
+
+#[test]
+fn a_folder_that_already_holds_files_is_left_alone() {
+    let dir = TempDir::new();
+    fs::write(dir.path().join("note.txt"), b"x").unwrap();
+    assert_eq!(classify_directory(dir.path()), DirectoryKind::Occupied);
+    match create_vault(dir.path(), "Nom", password(), password(), CreateOptions::for_tests()) {
+        Err(Error::AlreadyExists) => {}
+        Err(error) => panic!("mauvaise erreur : {error}"),
+        Ok(_) => panic!("coffre créé dans un dossier occupé"),
+    }
 }
 
 #[test]

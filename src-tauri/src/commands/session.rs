@@ -16,6 +16,16 @@ pub fn discover() -> Option<String> {
 }
 
 #[tauri::command]
+pub fn classify_directory(directory: String) -> String {
+    match vault::classify_directory(Path::new(&directory)) {
+        vault::DirectoryKind::Vault => "vault",
+        vault::DirectoryKind::Blank => "blank",
+        vault::DirectoryKind::Occupied => "occupied",
+    }
+    .to_string()
+}
+
+#[tauri::command]
 pub async fn create_vault(
     app: AppHandle,
     directory: String,

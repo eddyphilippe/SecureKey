@@ -1,4 +1,5 @@
 import { inTauri, pickDirectory } from "../api";
+import { chooseVaultFolder } from "../choose-vault";
 import { update } from "../stores/session";
 
 export function renderWelcome(root: HTMLElement, discovered: string | null): void {
@@ -47,13 +48,13 @@ export function renderWelcome(root: HTMLElement, discovered: string | null): voi
   screen.append(card);
   root.append(screen);
 
-  create.addEventListener("click", () => update({ screen: "create", error: null }));
+  create.addEventListener("click", () => update({ screen: "create", discoveredPath: null, error: null }));
   open.addEventListener("click", async () => {
     if (!inTauri()) {
       update({ screen: "unlock", discoveredPath: null, error: "Ouvrez NomadVault pour choisir un coffre." });
       return;
     }
     const picked = await pickDirectory();
-    if (picked) update({ screen: "unlock", discoveredPath: picked, error: null });
+    if (picked) await chooseVaultFolder(picked);
   });
 }

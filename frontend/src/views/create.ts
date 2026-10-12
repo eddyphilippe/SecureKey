@@ -9,7 +9,7 @@ function joinVault(parent: string): string {
   return `${trimmed}${separator}Vault`;
 }
 
-export function renderCreate(root: HTMLElement): void {
+export function renderCreate(root: HTMLElement, preset: string | null): void {
   root.replaceChildren();
   const screen = document.createElement("section");
   screen.className = "gate";
@@ -40,7 +40,8 @@ export function renderCreate(root: HTMLElement): void {
   place.textContent = "Choisir l'emplacement";
   const placeText = document.createElement("p");
   placeText.className = "muted path";
-  let directory = "";
+  let directory = preset ? joinVault(preset) : "";
+  placeText.textContent = directory;
 
   const passwordLabel = document.createElement("label");
   passwordLabel.textContent = "Mot de passe";

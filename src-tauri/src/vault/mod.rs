@@ -252,6 +252,53 @@ pub fn discover() -> Option<String> {
     discover_vault().map(|path| path.to_string_lossy().into_owned())
 }
 
+/// Ce qu'un dossier choisi par l'utilisateur peut devenir.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DirectoryKind {
+    /// `vault.meta` est présent : le coffre se déverrouille.
+    Vault,
+    /// Rien, ou seulement le dossier `objects` vide livré avec le programme.
+    Blank,
+    /// D'autres fichiers : ce n'est pas un emplacement de coffre.
+    Occupied,
+}
+
+pub fn classify_directory(directory: &Path) -> DirectoryKind {
+    if directory.join("vault.meta").is_file() {
+        return DirectoryKind::Vault;
+    }
+    if !directory.exists() || is_blank_slot(directory) {
+        return DirectoryKind::Blank;
+    }
+    DirectoryKind::Occupied
+}
+
+fn is_ignored_name(name: &std::ffi::OsStr) -> bool {
+    let text = name.to_string_lossy();
+    text.starts_with("._") || text == ".DS_Store"
+}
+
+fn is_blank_slot(directory: &Path) -> bool {
+    let Ok(entries) = fs::read_dir(directory) else {
+        return false;
+    };
+    for entry in entries {
+        let Ok(entry) = entry else {
+            return false;
+        };
+        if is_ignored_name(&entry.file_name()) {
+            continue;
+        }
+        let only_empty_objects = entry.file_name() == "objects"
+            && entry.path().is_dir()
+            && is_blank_slot(&entry.path());
+        if !only_empty_objects {
+            return false;
+        }
+    }
+    true
+}
+
 pub fn create_vault(
     directory: &Path,
     name: &str,
@@ -376,13 +423,7 @@ fn check_password_pair(password: &[u8], confirm: &[u8]) -> Result<()> {
 
 fn prepare_directory(directory: &Path) -> Result<()> {
     if directory.exists() {
-        let mut empty = true;
-        for entry in fs::read_dir(directory)? {
-            let _ = entry?;
-            empty = false;
-            break;
-        }
-        if !empty {
+        if !is_blank_slot(directory) {
             return Err(Error::AlreadyExists);
         }
     } else {

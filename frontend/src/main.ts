@@ -13,7 +13,7 @@ let autoLock = 0;
 function render(): void {
   const model = state();
   if (model.screen === "welcome") renderWelcome(app!, model.discoveredPath);
-  else if (model.screen === "create") renderCreate(app!);
+  else if (model.screen === "create") renderCreate(app!, model.discoveredPath);
   else if (model.screen === "unlock") renderUnlock(app!, model);
   else if (model.screen === "ready") renderReady(app!, model.readyMessage ?? "Votre coffre est prêt.");
   else renderBrowser(app!, model);
