@@ -5,6 +5,11 @@ NomadVault garde des fichiers dans un coffre chiffré. Le coffre peut être
 sur une clé USB ou dans un dossier de l'ordinateur. Mac, Windows et Linux
 ouvrent le même coffre, sans conversion.
 
+Formatez la clé en exFAT avant d'y copier ce dossier.
+C'est le format à utiliser : Mac, Windows et Linux le lisent,
+et un fichier du coffre peut dépasser 4 Go.
+Ne formatez pas en FAT16 (trop petit) ni en FAT32 (fichiers limités à 4 Go).
+
 Le dossier Vault livré ici est vide. Ce n'est pas encore un coffre :
 le fichier vault.meta n'existe pas, et objects est vide.
 Il faut créer le coffre une fois (voir plus bas).
@@ -50,7 +55,8 @@ Windows
   Windows sur processeur ARM
 
 Clé USB
-  Format : exFAT, lisible sur Mac, Windows et Linux.
+  À faire en premier : formater la clé en exFAT.
+  Mac, Windows et Linux lisent ce format.
   Un fichier du coffre peut dépasser 4 Go.
   Le FAT16 ne convient pas : il s'arrête vers 2 Go.
   Le FAT32 bloque les fichiers de plus de 4 Go.

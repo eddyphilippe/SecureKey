@@ -21,6 +21,8 @@ La clé se formate en exFAT, lisible sur les trois systèmes. Un fichier du coff
 
 ## Utilisation
 
+Formater la clé en exFAT avant d’y copier NomadVault. C’est obligatoire pour la clé : Mac, Windows et Linux la lisent, et un fichier du coffre peut dépasser 4 Go. Le FAT16 est trop petit. Le FAT32 bloque les fichiers de plus de 4 Go.
+
 Le dossier `Vault` livré dans le téléchargement est vide. Il n’y a pas encore de fichier `vault.meta`. Si vous le sélectionnez avec **Ouvrir un coffre existant**, NomadVault propose de créer le coffre à cet endroit.
 
 1. Lancer l’application de son système (voir ci-dessous).
